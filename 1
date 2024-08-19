@@ -1,0 +1,1569 @@
+# BISECTION METHOD
+from sympy import symbols, lambdify, diff, cos, sin, exp
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+x = symbols('x')
+expr = eval(input("Enter expression: "))
+a = float(input("Enter left interval: "))
+b = float(input("Enter right interval: "))
+f = lambdify(x, expr)
+
+x_vals = np.linspace(a, b, 400)
+y_vals = f(x_vals)
+
+plt.plot(x_vals, y_vals, label=r"$f(x) = \cos(x) - x e^x$")
+plt.axhline(0, color='black', linewidth=1.5)
+plt.axvline(0, color='black', linewidth=1.5)
+plt.title("Graph of $f(x) = \cos(x) - x e^x$")
+plt.legend()
+plt.grid(True)
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.show()
+
+epsilon = 0.001
+while(abs(a-b) > epsilon):
+    mid = (a+b)/2
+    fa = expr.subs(x,a)
+    fb = expr.subs(x,b)
+    fc = expr.subs(x,mid)
+    if fa*fc < 0:
+     	b = mid
+    else:
+        a = mid
+print(f'root={mid}')
+
+
+#REGULA FALSI METHOD
+
+# import sympy as sp
+# import math
+# x = sp.symbols('x')
+# expr = eval(input("Enter expression: "))
+# a = float(input("Enter left interval: "))
+# b = float(input("Enter right interval: "))
+# sp.plot(expr,(x,a,b))
+# epsilon = 0.001
+# max_it = 1000
+# for i in range(max_it):
+#     fa = expr.subs(x,a)
+#     fb = expr.subs(x,b)
+#     mid = (a*fb - b*fa)/(fb - fa)
+#     fc = expr.subs(x,mid)
+#     if abs(a-b) < epsilon:
+#         break
+#     if fa*fc < 0:
+#      	b = mid
+#     else:
+#      	a = mid
+# print(f'root={mid}')
+
+
+# #NEWTON RAPHSON METHOD
+
+# import sympy as sp
+# x = sp.symbols('x')
+# expr = eval(input("Enter expression: "))
+# x1 = float(input("Enter left interval: "))
+# x2 = float(input("Enter right interval: "))
+# sp.plot(expr,(x,x1,x2))
+# dif = sp.diff(expr,x)
+# epsilon = 0.001
+# max_it = 100
+# fx1 = expr.subs(x,x1)
+# fx2 = expr.subs(x,x2)
+# x0 = (x1+x2)/2
+
+# for i in range(max_it):
+#     ft = expr.subs(x,x0)
+#     temp = x0 - ft/dif.subs(x,x0)
+#     if abs(x0 - temp) < epsilon:
+#         break
+#     x0 = temp
+# print(f'root={temp}')
+  
+
+# #FIXED POINT ITERATION METHOD
+
+# import sympy as sp
+# x = sp.symbols('x')
+# f = eval(input("Enter f(x): "))
+# g = eval(input("Enter g(x): "))
+# x1 = float(input("Enter left interval: "))
+# x2 = float(input("Enter right interval: "))
+# sp.plot(f,(x,x1,x2))
+# sp.plot(g,(x,x1,x2))
+# epsilon = 0.001
+# max_it = 1000
+# x0 = (x1 + x2)/2
+# for i in range(max_it):
+#     temp = g.subs(x,x0)
+#     if abs(temp - x0) < epsilon:
+#         break
+#     x0 = temp
+# print(f'root={temp}')
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#Graffe's Root Squaring Method
+import matplotlib.pyplot as plt
+import numpy as np
+import sympy as sp
+
+n = int(input("degree = "))
+x = sp.symbols('x')
+expr = eval(input("Enter expression: "))
+expr= sp.sympify(expr)
+arr = []
+for i in range(n+1):
+    arr.append(expr.coeff(x,i))
+print(arr)
+f = sp.lambdify(x,expr)
+
+a=arr
+j = 1
+flag = 0
+sol=np.zeros(n)
+while(flag == 0 and j<8):
+    b=np.zeros(n+1)
+    for i in range(n+1):
+        x,y = i-1,i+1
+        sum = a[i]**2
+        t = 1
+        while(x>-1 and y<n+1):
+            sum =sum + ((-1)**t)*(2*a[x]*a[y])
+            x = x-1
+            y = y+1
+            t = t+1
+        b[i]=sum
+    for i in range(n):import numpy as np
+import sympy as sp
+
+
+x = sp.Symbol('x')
+
+n = int(input("Size of Matrix : "))
+# tol = 0.001
+print("Enter Elements : ")
+arr=[]
+for i in range(n):
+    t = []
+    for j in range(n):
+        temp = int(input())
+        t.append(temp)
+    arr.append(t)
+
+arr = sp.Matrix(arr)
+sp.pprint(arr)
+matrix = sp.Matrix(arr) - x * sp.eye(n)
+
+det = matrix.det()
+
+
+eq = sp.Eq(det, 0)
+eigen_values = sp.solve(eq, x)
+print(eigen_values)
+
+eigenvects = arr.eigenvects()
+# print(eigenvects)
+for i in eigenvects:
+    sp.pprint(i[n-1])
+
+        sol[i] = (b[i]/b[i+1])**(1/(2**j))
+    print(b)
+    print(sol)
+    flag = 1
+    for i in range(n):
+        if (f(sol[i])!=0):
+            flag = 0
+    if flag ==1:
+        break
+    j=j+1
+    a = b
+
+print(sol)
+
+num = np.linspace(-1, 5, 400) 
+y = f(num)
+plt.plot(num, y)
+plt.show()
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Augmented matrix
+import sympy as sp
+
+def get_equation():
+    equation = input("Enter equation (e.g. 2*x1 + 3*x2 = 7): ")
+    lhs, rhs = equation.split('=')
+    lhs = sp.sympify(lhs)
+    rhs = sp.sympify(rhs)
+    return lhs, rhs
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(" ".join(f"{num:.1f}" for num in row))
+        
+def create_augmented_matrix(num_equations, num_variables):
+    variables = [f"x{i}" for i in range(1, num_variables + 1)]
+    vars = sp.symbols(' '.join(variables))
+
+    matrix = []
+    for i in range(num_equations):
+        lhs, rhs = get_equation()
+        row = [lhs.coeff(var) for var in vars] + [rhs]
+        matrix.append(row)
+
+    matrix = sp.Matrix(matrix)
+    return matrix
+
+def main():
+    num_equations = int(input("Enter the number of equations: "))
+    num_variables = int(input("Enter the number of variables: "))
+
+    matrix = create_augmented_matrix(num_equations, num_variables)
+    print("Augmented Matrix:")
+    print(matrix)
+
+if __name__ == "__main__":
+    main()
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Question 1
+import numpy as np
+from numpy import linalg
+import sympy
+import operator as op
+
+def DirectMethod():
+    order=int(input('Enter the order of matrix:'))
+    entries=list(map(int,input().split()))
+    A=np.array(entries).reshape(order,order)
+    I=np.identity(order)
+    lam=sympy.symbols('lam')
+    M=sympy.Matrix(A-(lam*I))
+    characteristic_eqn=M.det()
+    eigen_values=sympy.solve(characteristic_eqn)
+    print('The eigen values are\n',eigen_values)
+    print('The eigen vectors are\n',linalg.eig(A))
+
+Output
+a)Enter the order of matrix:3
+Enter the elements of the matrix
+4 0 1 -2 1 0 -2 0 1
+The eigen values are
+ [1.00000000000000, 2.00000000000000, 3.00000000000000]
+The eigen vectors are
+ (array([1., 3., 2.]), array([[ 0.        ,  0.57735027, -0.33333333],
+       [ 1.        , -0.57735027,  0.66666667],
+       [ 0.        , -0.57735027,  0.66666667]]))
+
+b)Enter the order of matrix:3
+Enter the elements of the matrix
+1 0 -2 0 0 0 -2 0 4
+The eigen values are
+ [0.0, 5.00000000000000]
+The eigen vectors are
+ (array([0., 5., 0.]), array([[-0.89442719,  0.4472136 ,  0.        ],
+       [ 0.        ,  0.        ,  1.        ],
+       [-0.4472136 , -0.89442719,  0.        ]]))
+
+c)Enter the order of matrix:3
+Enter the elements of the matrix
+6 3 -8 0 -2 0 1 0 -3
+The eigen values are
+ [-2.00000000000000, 5.00000000000000]
+The eigen vectors are
+ (array([ 5., -2., -2.]), array([[9.92277877e-01, 7.07106781e-01, 7.07106781e-01],
+       [0.00000000e+00, 0.00000000e+00, 7.32709814e-16],
+       [1.24034735e-01, 7.07106781e-01, 7.07106781e-01]]))
+
+d)Enter the order of matrix:3
+Enter the elements of the matrix
+3 0 0 -2 7 0 4 8 0
+The eigen values are
+ [0.0, 3.00000000000000, 7.00000000000000]
+The eigen vectors are
+ (array([0., 7., 3.]), array([[0.        , 0.        , 0.34583425],
+       [0.        , 0.65850461, 0.17291713],
+       [1.        , 0.75257669, 0.92222467]]))
+
+Question 2
+import sys
+import numpy as np
+import sympy as sp
+
+class TraceAndDeterminant:
+    def _init_(self, matrix: np.ndarray, dimension: int):
+        self.matrix = matrix
+        self.dimension = dimension
+        self.l = sp.symbols('l')
+        
+        if dimension > 3 or dimension < 2:
+            print('Invalid dimension: dimension must be 2 or 3')
+            sys.exit(-1)
+
+    def minor(self, matrix: np.ndarray, index: int) -> np.ndarray:
+        return np.delete(np.delete(matrix, 0, axis=0), index, axis=1)
+
+    def find_determinant(self, matrix: np.ndarray) -> float:
+        if len(matrix) == 2:
+            return matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0]
+        return sum(matrix[0, i] * self.find_determinant(self.minor(matrix, i)) * (-1) ** i for i in range(len(matrix[0])))
+
+    def compute(self):
+        self.trace = np.trace(self.matrix)
+        self.determinant = self.find_determinant(self.matrix)
+        
+        if self.dimension == 2:
+            self.characteristic_equation = self.l ** 2 - self.trace * self.l + self.determinant
+        elif self.dimension == 3:
+            term = (
+                self.matrix[0, 0] * self.matrix[1, 1] +
+                self.matrix[1, 1] * self.matrix[2, 2] +
+                self.matrix[0, 0] * self.matrix[2, 2] -
+                self.matrix[0, 2] * self.matrix[2, 0] -
+                self.matrix[0, 1] * self.matrix[1, 0] -
+                self.matrix[1, 2] * self.matrix[2, 1]
+            )
+            self.characteristic_equation = -self.l * 3 + self.trace * self.l * 2 - self.l * term + self.determinant
+        
+        self.eigen_values = sp.solve(self.characteristic_equation, self.l)
+        _, self.eigen_vectors = np.linalg.eig(self.matrix)
+
+    def display_result(self):
+        print('\nThe Given Matrix:\n\n', self.matrix)
+        print(f'\nThe Trace of the matrix: {self.trace}')
+        print(f'The Determinant of the matrix: {self.determinant}')
+        print(f'The Characteristic Equation: {self.characteristic_equation}')
+        print(f'Eigen values: {self.eigen_values}')
+        print('\nThe Corresponding Eigen Vectors:\n')
+        for i, eigen_value in enumerate(self.eigen_values):
+            print(f'For Eigen value {eigen_value}, the eigen vector {self.eigen_vectors[:, i]}')
+
+def main():
+    dimension = int(input('Enter the dimension (2 or 3): '))
+    elements = input('Enter the matrix elements (space-separated): ')
+    matrix = np.array(list(map(float, elements.split()))).reshape([dimension, dimension])
+    
+    t = TraceAndDeterminant(matrix, dimension)
+    t.compute()
+    t.display_result()
+
+if _name_ == '_main_':
+    main()
+
+Output
+a)Enter the dimension (2 or 3): 3
+Enter the matrix elements (space-separated): -10 11 6 -15 16 -10 -3 3 -2
+
+The Given Matrix:
+
+ [[-10.  11.   6.]
+ [-15.  16. -10.]
+ [ -3.   3.  -2.]]
+
+The Trace of the matrix: 4.0
+The Determinant of the matrix: 38.0
+The Characteristic Equation: -l*3 + 4.0*l*2 - 41.0*l + 38.0
+Eigen values: [1.00000000000000, 1.5 - 5.9791303715507*I, 1.5 + 5.9791303715507*I]
+
+The Corresponding Eigen Vectors:
+
+For Eigen value 1.00000000000000, the eigen vector [-0.60564777+0.30303322j -0.72221597+0.j         -0.13874149-0.02272749j]
+For Eigen value 1.5 - 5.9791303715507*I, the eigen vector [-0.60564777-0.30303322j -0.72221597-0.j         -0.13874149+0.02272749j]
+For Eigen value 1.5 + 5.9791303715507*I, the eigen vector [-7.07106781e-01+0.j -7.07106781e-01+0.j  1.49728118e-16+0.j]
+
+b)Enter the dimension (2 or 3): 3
+Enter the matrix elements (space-separated): 3 -1 0 -1 2 -1 0 -1 3
+
+The Given Matrix:
+
+ [[ 3. -1.  0.]
+ [-1.  2. -1.]
+ [ 0. -1.  3.]]
+
+The Trace of the matrix: 8.0
+The Determinant of the matrix: 12.0
+The Characteristic Equation: -l*3 + 8.0*l*2 - 19.0*l + 12.0
+Eigen values: [1.00000000000000, 3.00000000000000, 4.00000000000000]
+
+The Corresponding Eigen Vectors:
+
+For Eigen value 1.00000000000000, the eigen vector [0.40824829 0.81649658 0.40824829]
+For Eigen value 3.00000000000000, the eigen vector [-7.07106781e-01  4.02240178e-16  7.07106781e-01]
+For Eigen value 4.00000000000000, the eigen vector [ 0.57735027 -0.57735027  0.57735027]
+
+c)Enter the dimension (2 or 3): 3
+Enter the matrix elements (space-separated): 1 -7 -1 0 1 0 0 15 -2
+
+The Given Matrix:
+
+ [[ 1. -7. -1.]
+ [ 0.  1.  0.]
+ [ 0. 15. -2.]]
+
+The Trace of the matrix: 0.0
+The Determinant of the matrix: -2.0
+The Characteristic Equation: -l**3 + 3.0*l - 2.0
+Eigen values: [-2.00000000000000, 1.00000000000000]
+
+The Corresponding Eigen Vectors:
+
+For Eigen value -2.00000000000000, the eigen vector [1. 0. 0.]
+For Eigen value 1.00000000000000, the eigen vector [0.31622777 0.         0.9486833 ]
+
+Question 3
+def PowerMethod():
+    order=int(input('Enter the order of matrix:'))
+    tolerance=float(input('Enter the tolerance value:'))
+    entries=list(map(int,input().split()))
+    A=np.array(entries).reshape(order,order)
+    X=np.ones([order,1])
+    lambda_old=1
+    lambda_new=1   
+    flag=1
+    while(flag==1 or abs(lambda_old-lambda_new)>tolerance):
+        flag=0
+        lambda_old=lambda_new
+        X_new=np.matmul(A,X)
+        X=X_new
+        lambda_new=float(max(X_new))
+        X=X/lambda_new
+        if(op.countOf(X, lambda_new)!=1):
+            print(' The Method is not applicable as there is no dominant eigen value')
+            return
+        print('X:',X)
+        print('Lambda New:',lambda_new)
+    print('X:',X)
+    print('The largest eigen vector is ',max(X))
+
+Output
+a)Enter the order of matrix:2
+Enter the tolerance value:0.02
+1 0 6 -1
+The Method is not applicable as there is no dominant eigen value
+
+b)Enter the order of matrix:3
+Enter the tolerance value:0.02
+2 0 -2 0 3 0 0 0 3
+The Method is not applicable as there is no dominant eigen value
+
+c)Enter the order of matrix:3
+Enter the tolerance value:0.02
+-1 7 -1 0 1 0 0 15 -2
+The Method is not applicable as there is no dominant eigen value
+
+Question 4
+import numpy as np
+import sympy as sp
+import math
+
+def convert_to_matrix(equation, variables):
+    variables_matrix = sp.Matrix(variables)
+    matrix = np.array(sp.hessian(equation, variables_matrix)) / 2
+    print('\nThe Given Matrix:\n\n', matrix)
+    return matrix
+
+def format_output(iteration, eigen_value, eigen_vector, tolerance):
+    digits = int(math.log10(1 / tolerance))
+    rounded_eigen_value = round(float(eigen_value), digits)
+    rounded_eigen_vector = np.round(eigen_vector.astype(float), digits)
+    print(f'\t{iteration:9d} \t{rounded_eigen_value:{14 - digits}.{digits}f}{" " * digits} \t{rounded_eigen_vector}')
+    return rounded_eigen_value, rounded_eigen_vector
+
+def power_method(matrix, dimension, tolerance):
+    x = np.ones([dimension, 1]).reshape([1, -1])[0]
+    current_eigen = 1
+    print('\n\tIteration \tEigen Value \tEigen Vector\n')
+    iteration = 0
+    format_output(iteration, current_eigen, x, tolerance)
+    
+    while True:
+        iteration += 1
+        temp = np.matmul(matrix, x)
+        eigen = temp[np.where(np.abs(temp) == np.max(np.abs(temp)))[0][0]]
+        eigen, temp = format_output(iteration, eigen, temp, tolerance)
+        
+        if len(np.where(temp == float(eigen))[0]) != 1:
+            print(f'\nThe Method is not applicable as there is no dominant eigen value')
+            return
+        
+        x = temp / eigen
+        
+        if abs(abs(eigen) - current_eigen) < tolerance:
+            break
+        
+        current_eigen = eigen
+    
+    print(f'\nFinal Eigen Value: {current_eigen}\nFinal Eigen Vector: {x}\n')
+
+def main():
+    dimension = int(input('Enter the number of independent variables: '))
+    equation = sp.sympify(input('Enter the equation: '))
+    variables = [f'x{i + 1}' for i in range(dimension)]
+    tolerance = 0.001
+    
+    matrix = convert_to_matrix(equation, variables)
+    power_method(matrix, dimension, tolerance)
+
+if _name_ == '_main_':
+    main()
+
+Question 5
+def cofactor(A,row,col,order):
+    temp=[]
+    for i in range(order):
+        for j in range(order):
+            if(i!=row and j!=col):
+                temp.append(A[i][j])
+    return linalg.det(np.array(temp).reshape(order-1,order-1))
+  
+def InversePowerMethod():
+    order=int(input('Enter the order of matrix:'))
+    tolerance=float(input('Enter the tolerance value:'))
+    entries=list(map(float,input().split()))
+    A=np.array(entries).reshape(order,order)
+    if linalg.det(A)!=0:
+        adj_A=np.zeros([order,order])
+        for i in range(order):
+            for j in range(order):
+                if (i+j)%2==0:
+                    sign=1
+                else:
+                    sign=-1
+                adj_A[j][i]=sign*cofactor(A,i,j,order)       
+        A=adj_A/linalg.det(A)
+    else:
+        print('Inverse does not exist')
+        return
+    X=np.ones([order,1])
+    lambda_old=1
+    lambda_new=1   
+    flag=1
+    while(flag==1 or abs(lambda_old-lambda_new)>tolerance):
+        flag=0
+        lambda_old=lambda_new
+        X_new=np.matmul(A,X)
+        X=X_new
+        lambda_new=float(max(X_new))
+        X=X/lambda_new
+        if(op.countOf(X, lambda_new)!=1):
+            print('X:',X)
+            print('The Method is not applicable as there is no dominant eigen value')
+            return
+        print('X:',X)
+        print('Lambda New:',lambda_new)
+    print('X:',X)
+    print('The smallest eigen vector is ',min(X))
+
+Output
+a)Enter the order of matrix:3
+Enter the tolerance value:0.02
+2 3 1 0 -1 2 0 0 3
+X: [[ 1. ]
+ [-0.4]
+ [ 0.4]]
+The Method is not applicable as there is no dominant eigen value
+
+b)Enter the order of matrix:3
+Enter the tolerance value:0.02
+3 0 0 1 -1 0 0 2 8
+X: [[ 1.   ]
+ [-2.   ]
+ [ 0.875]]
+The Method is not applicable as there is no dominant eigen value
+
+c)Enter the order of matrix:3
+Enter the tolerance value:0.02
+1 2 0 0 -7 1 0 0 0
+Inverse does not exist
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Power Method
+import numpy as np
+
+def power_method(A, num_iterations=100, tolerance=1e-6):
+    n = A.shape[0]
+    b = np.random.rand(n)  # start with a random vector
+    
+    # Normalize the initial vector
+    b = b / np.sqrt(np.sum(b ** 2))
+
+    for _ in range(num_iterations):
+        # Perform the matrix-vector multiplication
+        b_new = np.dot(A, b)
+        
+        # Estimate the eigenvalue using the Rayleigh quotient
+        eigenvalue = np.dot(b_new, b) / np.dot(b, b)
+        
+        # Normalize the new vector
+        b_new = b_new / np.sqrt(np.sum(b_new ** 2))
+        
+        # Check for convergence
+        if np.sqrt(np.sum((b - b_new) ** 2)) < tolerance:
+            break
+        
+        b = b_new
+    
+    return eigenvalue, b
+
+def main():
+    n = int(input("Enter the order of the matrix: "))
+    A = np.zeros((n, n))
+
+    print("Enter the matrix elements:")
+    for i in range(n):
+        for j in range(n):
+            A[i, j] = float(input(f"Enter element [{i}][{j}]: "))
+
+    eigenvalue, eigenvector = power_method(A)
+    print("\nLargest eigenvalue:", eigenvalue)
+    print("Corresponding eigenvector:", eigenvector)
+
+if __name__ == "__main__":
+    main()
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Gauss Jordan
+
+# Importing NumPy Library
+import numpy as np
+
+# Reading number of unknowns
+n = int(input('Enter number of unknowns: '))
+
+# Making numpy array of n x n+1 size and initializing 
+# to zero for storing augmented matrix
+a = np.zeros((n, n+1))
+
+# Making numpy array of n size and initializing 
+# to zero for storing solution vector
+x = np.zeros(n)
+
+# Reading augmented matrix coefficients
+print('Enter Augmented Matrix Coefficients:')
+for i in range(n):
+    for j in range(n+1):
+        a[i][j] = float(input('a[' + str(i) + '][' + str(j) + ']='))
+
+# Applying Gauss-Jordan Elimination
+for i in range(n):
+    for j in range(n):
+
+        if(i!=j):
+            ratio = a[j][i] / a[i][i]
+
+            for k in range(n+1):
+                a[j][k] = a[j][k] - ratio * a[i][k]
+
+            # Print the matrix after each row operation
+            print(f"\nMatrix after making row {j+1} zero below pivot at row {i+1}:")
+            print(a)
+
+
+# Obtaining Solution
+for i in range(n):
+    x[i] = a[i][n] / a[i][i]
+print("RREF ")
+for i in range(n):
+    temp = a[i][i]
+    for j in range(n+1):
+        a[i][j] = a[i][j] / temp
+print(a)
+# Displaying solution
+print('\nRequired solution is: ')
+for i in range(n):
+    print('X%d = %0.2f' % (i, x[i]), end='\t')
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Gauss Jacobi
+
+import numpy as np
+
+def jacobi(a, x, b):
+    n = len(a)  # Finding length of a
+    new_x = np.zeros_like(x)  # Create a new solution vector initialized to zero
+
+    # Loop for each variable to calculate x, y, z, etc.
+    for j in range(n):
+        d = b[j]  # Temporary variable to store b[j]
+
+        # Calculate the sum for the j-th variable using values from the previous iteration
+        for i in range(n):
+            if j != i:
+                d -= a[j][i] * x[i]
+
+        # Update the j-th variable of the new solution vector
+        new_x[j] = d / a[j][j]
+
+    return new_x
+
+# Input matrix A
+a = np.array([[4, 1, 2], [3, 5, 1], [1, 1, 3]])
+
+# Input matrix B
+b = np.array([4, 7, 3])
+
+# Initial guess for the solution
+x = np.zeros(len(b))
+
+# Number of iterations
+iterations = 100
+
+# Loop for the specified number of iterations
+for i in range(iterations):
+    x = jacobi(a, x, b)
+    print(f"Iteration {i+1}: {x}")
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Orthogonal Check
+import numpy as np
+
+def get_matrix():
+    order = int(input("Enter order of Square matrix: "))
+    matrix = np.zeros((order, order))
+    print(f"Enter elements of {order}x{order} matrix Rowwise\n")
+    for i in range(order):
+        print("Enter elements in Row (sep by space) ", i+1, ": ")
+        row = [float(num) for num in input().split()]
+        matrix[i] = row
+    return matrix
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(" ".join(f"{num:.4f}" for num in row))
+
+def check_orthogonal(matrix):
+    transpose = matrix.T
+    product = matrix @ transpose
+    print("If A^T = A^-1 it is orthogonal")
+    print("i.e A.A^T = I")
+    print_matrix(product)
+    
+    if np.allclose(product, np.eye(matrix.shape[0])):
+        print("Yes Orthogonal")
+    else:
+        print("Not Orthogonal")
+
+# Main
+matrix = get_matrix()
+print("The input matrix is:")
+print_matrix(matrix)
+
+print("Checking if symmetric:")
+transpose = matrix.T
+if np.allclose(matrix, transpose):
+    print("Yes Symmetric")
+else:
+    print("Not Symmetric")
+
+print("Checking if orthogonal:")
+check_orthogonal(matrix)
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Jacobi Eigen Value
+import numpy as np
+
+def get_matrix():
+    order = int(input("Enter order of Square matrix: "))
+    matrix = np.zeros((order, order))
+    print(f"Enter elements of {order}x{order} matrix Rowwise\n")
+    for i in range(order):
+        for j in range(order):
+            print(f"Enter element [{i+1}][{j+1}] : ")
+            matrix[i, j] = float(input())
+    return matrix
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(" ".join(f"{num:.4f}" for num in row))
+
+def check_symmetric(matrix):
+    transpose = matrix.T
+    flag = 1
+    print("The Transpose of A is:")
+    print_matrix(transpose)
+    if np.allclose(matrix, transpose):
+        print("Yes Symmetric")
+    else:
+        print("Not Symmetric")
+        flag = 0
+    return flag
+
+def jacobi_method(A, tol=0, max_iter=100):
+    A = np.copy(A)
+    n = A.shape[0]
+    R = np.eye(n)
+
+    for _ in range(max_iter):
+        # Find the largest off-diagonal absolute value
+        off_diag_max = 0
+        p, q = 0, 1
+        for i in range(n):
+            for j in range(i+1, n):
+                if abs(A[i, j]) > off_diag_max:
+                    off_diag_max = abs(A[i, j])
+                    p, q = i, j
+
+        if off_diag_max == tol:
+            break
+
+        if A[p, p] == A[q, q]:
+            theta = np.pi / 4 if A[p, q] > 0 else -np.pi / 4
+        else:
+            theta = 0.5 * np.arctan2(2 * A[p, q], A[q, q] - A[p, p])
+        cos_theta = round(np.cos(theta), 4)
+        sin_theta = round(np.sin(theta), 4)
+
+        J = np.eye(n)
+        J[p, p] = cos_theta
+        J[p, q] = -sin_theta
+        J[q, p] = sin_theta
+        J[q, q] = cos_theta
+
+        # Update A and R
+        A = np.round(J.T @ A @ J, 4)
+        R = np.round(R @ J, 4)
+
+    eigenvalues = np.diag(A)
+    eigenvectors = R
+
+    return eigenvalues, eigenvectors
+
+# Main
+matrix = get_matrix()
+print("\nThe input matrix is:\n")
+print_matrix(matrix)
+
+print("\nChecking if symmetric:\n")
+flag = check_symmetric(matrix)
+
+if flag:
+    print("JACOBI\n")
+    eigenvalues, eigenvectors = jacobi_method(matrix)
+    
+    print("\nEigen Values:")
+    print(np.round(eigenvalues, 4))
+    
+    # Normalize eigenvectors
+    for i in range(eigenvectors.shape[0]):
+       norm = eigenvectors[i][i]
+       eigenvectors[i] = eigenvectors[i] / norm
+       
+    print("\nNormalized Eigen Vectors:")
+    print(np.round(eigenvectors, 4))
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Symmetric Check
+import numpy as np
+
+def get_matrix():
+    order = int(input("Enter order of Square matrix: "))
+    matrix = np.zeros((order, order))
+    print(f"Enter elements of {order}x{order} matrix Rowwise\n")
+    for i in range(order):
+        print("Enter elements in Row (sep by space) ", i+1, ": ")
+        row = [float(num) for num in input().split()]
+        matrix[i] = row
+    return matrix
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(" ".join(f"{num:.4f}" for num in row))
+
+def check_symmetric(matrix):
+    transpose = matrix.T
+    print("The Transpose of A is:")
+    print_matrix(transpose)
+    if np.allclose(matrix, transpose):
+        print("Yes Symmetric")
+    else:
+        print("Not Symmetric")
+
+# Main
+matrix = get_matrix()
+print("The input matrix is:")
+print_matrix(matrix)
+
+print("Checking if symmetric:")
+check_symmetric(matrix)
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+Gauss Jacobi and Siedel By Ego
+
+def gauss_jacobi(A, B, x0, tolerance, max_iterations):
+    n = len(A)
+    x = x0[:]
+    for k in range(max_iterations):
+        x_new = x[:]
+        for i in range(n):
+            s = sum(A[i][j] * x[j] for j in range(n) if j != i)
+            x_new[i] = (B[i] - s) / A[i][i]
+        print(f"Iteration {k+1}: {x_new}")
+        if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):
+            return x_new
+        x = x_new
+    return x
+
+# User input for the system of equations
+n = int(input("Enter the number of equations (and variables): "))
+A = []
+B = []
+
+print("Enter the coefficients of the equations (row-wise):")
+for i in range(n):
+    row = list(map(float, input(f"Row {i+1}: ").split()))
+    A.append(row)
+
+print("Enter the constants on the right-hand side:")
+for i in range(n):
+    B.append(float(input(f"Constant for equation {i+1}: ")))
+
+x0 = [0 for _ in range(n)]
+tolerance = float(input("Enter the tolerance value: "))
+max_iterations = int(input("Enter the maximum number of iterations: "))
+
+solution = gauss_jacobi(A, B, x0, tolerance, max_iterations)
+print("Final Solution:", solution)
+
+
+def gauss_seidel(A, B, x0, tolerance, max_iterations):
+    n = len(A)
+    x = x0[:]
+    for k in range(max_iterations):
+        x_new = x[:]
+        for i in range(n):
+            s1 = sum(A[i][j] * x_new[j] for j in range(i))
+            s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
+            x_new[i] = (B[i] - s1 - s2) / A[i][i]
+        print(f"Iteration {k+1}: {x_new}")
+        if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):
+            return x_new
+        x = x_new
+    return x
+
+# User input for the system of equations
+n = int(input("Enter the number of equations (and variables): "))
+A = []
+B = []
+
+print("Enter the coefficients of the equations (row-wise):")
+for i in range(n):
+    row = list(map(float, input(f"Row {i+1}: ").split()))
+    A.append(row)
+
+print("Enter the constants on the right-hand side:")
+for i in range(n):
+    B.append(float(input(f"Constant for equation {i+1}: ")))
+
+x0 = [0 for _ in range(n)]
+tolerance = float(input("Enter the tolerance value: "))
+max_iterations = int(input("Enter the maximum number of iterations: "))
+
+solutions = gauss_seidel(A, B, x0, tolerance, max_iterations)
+print("Final Solution:", solutions)
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+############################33###bisection######################
+from sympy import symbols, lambdify, diff, cos, sin, exp
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = symbols('x')
+expr = eval(input("Enter expression: "))
+a = float(input("Enter left interval: "))
+b = float(input("Enter right interval: "))
+f = lambdify(x, expr)
+
+x_vals = np.linspace(a, b, 400)
+y_vals = f(x_vals)
+
+plt.plot(x_vals, y_vals)
+plt.axhline(0, color='black', linewidth=1.5)
+plt.axvline(0, color='black', linewidth=1.5)
+
+plt.legend()
+plt.grid(True)
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.show()
+
+epsilon = 0.001
+while(abs(a-b) > epsilon):
+    mid = (a+b)/2
+    fa = expr.subs(x,a)
+    fb = expr.subs(x,b)
+    fc = expr.subs(x,mid)
+    if fa*fc < 0:
+     	b = mid
+    else:
+        a = mid
+print(f'root={mid}')
+
+#################################33#########REGULA FALASI#################
+#REGULA FALSI METHOD
+
+import sympy as sp
+import math
+x = sp.symbols('x')
+expr = eval(input("Enter expression: "))
+a = float(input("Enter left interval: "))
+b = float(input("Enter right interval: "))
+sp.plot(expr,(x,a,b))
+epsilon = 0.001
+max_it = 1000
+for i in range(max_it):
+    fa = expr.subs(x,a)
+    fb = expr.subs(x,b)
+    mid = (a*fb - b*fa)/(fb - fa)
+    fc = expr.subs(x,mid)
+    if abs(a-b) < epsilon:
+        break
+    if fa*fc < 0:
+     	b = mid
+    else:
+     	a = mid
+print(f'root={mid}')
+
+########################################NEWTON
+
+#NEWTON RAPHSON METHOD
+
+import sympy as sp
+x = sp.symbols('x')
+expr = eval(input("Enter expression: "))
+x1 = float(input("Enter left interval: "))
+x2 = float(input("Enter right interval: "))
+
+sp.plot(expr,(x,x1,x2))
+
+dif = sp.diff(expr,x)
+
+epsilon = 0.001
+max_it = 100
+fx1 = expr.subs(x,x1)
+fx2 = expr.subs(x,x2)
+
+#initial value
+x0 = (x1+x2)/2
+
+for i in range(max_it):
+    ft = expr.subs(x,x0)
+    temp = x0 - ft/dif.subs(x,x0)
+    if abs(x0 - temp) < epsilon:
+        break
+    x0 = temp
+print(f'root={temp}')
+
+#######################################FIXEDPOINT ITERATION########
+#FIXED POINT ITERATION METHOD
+
+import sympy as sp
+x = sp.symbols('x')
+f = eval(input("Enter f(x): "))
+g = eval(input("Enter g(x): ")) 
+x1 = float(input("Enter left interval: "))
+x2 = float(input("Enter right interval: "))
+sp.plot(f,(x,x1,x2))
+sp.plot(g,(x,x1,x2))
+epsilon = 0.001
+max_it = 1000
+x0 = (x1 + x2)/2
+for i in range(max_it):
+    temp = g.subs(x,x0)
+    if abs(temp - x0) < epsilon:
+        break
+    x0 = temp
+print(f'root={temp}')
+
+###########################################################GRAEFFE
+
+import matplotlib.pyplot as plt
+import numpy as np
+import sympy as sp
+
+n = int(input("degree = "))
+x = sp.symbols('x')
+expr = eval(input("Enter expression: "))
+expr= sp.sympify(expr)
+arr = []
+for i in range(n+1):
+    arr.append(expr.coeff(x,i))
+print(arr)
+f = sp.lambdify(x,expr)
+
+a=arr
+j = 1
+flag = 0
+sol=np.zeros(n)
+while(flag == 0 and j<8):
+    b=np.zeros(n+1)
+    for i in range(n+1):
+        x,y = i-1,i+1
+        sum = a[i]**2
+        t = 1
+        while(x>-1 and y<n+1):
+            sum =sum + ((-1)**t)*(2*a[x]*a[y])
+            x = x-1
+            y = y+1
+            t = t+1
+        b[i]=sum
+    for i in range(n):
+        sol[i] = (b[i]/b[i+1])**(1/(2**j))
+    print("b array:",b)
+    print("solution:",sol)
+    flag = 1
+    for i in range(n):
+        if (f(sol[i])!=0):
+            flag = 0
+    if flag ==1:
+        break
+    j=j+1
+    a = b
+
+print(sol)
+
+num = np.linspace(-1, 5, 400) 
+y = f(num)
+plt.plot(num, y)
+##############################################GAUSS JORDEN
+
+#gauss_jordan_elimination
+def gauss_jordan_elimination(matrix):
+    m = len(matrix)
+    n = len(matrix[0]) 
+    lead = 0
+
+    for r in range(m):
+        if lead >= n:
+            return matrix
+
+        i = r
+        while matrix[i][lead] == 0:
+            i += 1
+            if i == m:
+                i = r
+                lead += 1
+                if n == lead:
+                    return matrix
+
+        matrix[i], matrix[r] = matrix[r], matrix[i]
+
+        val = matrix[r][lead]
+        for j in range(n):
+            matrix[r][j] = matrix[r][j] / val
+
+        for i in range(m):
+            if i != r:
+                val = matrix[i][lead]
+                for j in range(n):
+                    matrix[i][j] = matrix[i][j] - val * matrix[r][j]
+
+        lead += 1
+
+    return matrix
+
+row = int(input("Enter the number of rows: "))
+col = int(input("Enter the number of columns: "))
+matrix = []
+
+for i in range(row):
+    a = []
+    for j in range(col):
+        b = float(input(f"Enter the element {(i+1,j+1)}: "))
+        a.append(b)
+    matrix.append(a)
+
+print("\nMatrix")
+for i in range(row):
+    for j in range(col):
+        print(matrix[i][j], end="  ")
+    print()
+
+rref_matrix = gauss_jordan_elimination(matrix)
+
+print("\nRREF Matrix")
+for i in range(row): 
+    for j in range(col):
+        # Round to 4 decimal places and print
+        value = round(rref_matrix[i][j], 4)
+        if abs(value) < 1e-10:  # Treat very small values as zero
+            value = 0.0
+        print(value, end="  ")
+    print()
+
+rank = 0
+for row in rref_matrix:
+    if any(val != 0 for val in row):
+        rank += 1
+
+print("\nRank of the matrix:", rank)
+
+###############################################################################
+#GAUSS JACOBI
+import numpy as np
+
+TOLERANCE = 1e-10
+MAX_ITERATIONS = 1000
+
+def gauss_jacobi(a, b, x0, tolerance=TOLERANCE, max_iterations=MAX_ITERATIONS):
+    n = len(b)
+    x = np.copy(x0)
+    x_new = np.zeros_like(x)
+
+    for k in range(max_iterations):
+        for i in range(n):
+            sum_ = 0
+            for j in range(n):
+                if j != i:
+                    sum_ += a[i][j] * x[j]
+            x_new[i] = (b[i] - sum_) / a[i][i]
+
+        error = np.linalg.norm(x_new - x, ord=np.inf)
+        if error < tolerance:
+            return x_new, k + 1
+
+        x = np.copy(x_new)
+
+    raise Exception("Gauss-Jacobi method did not converge")
+
+n = int(input("Enter number of unknowns: "))
+
+a = np.zeros((n, n))
+print("Enter coefficients of matrix A:")
+for i in range(n):
+    for j in range(n):
+        a[i][j] = float(input(f"a[{i+1}][{j+1}] = "))
+
+b = np.zeros(n)
+print("Enter the constants vector b:")
+for i in range(n):
+    b[i] = float(input(f"b[{i+1}] = "))
+
+x0 = np.zeros(n)
+print("Enter initial guesses:")
+for i in range(n):
+    x0[i] = float(input(f"x[{i+1}] = "))
+
+solution, iterations = gauss_jacobi(a, b, x0)
+print("\nSolution:")
+for i in range(n):
+    print(f"x[{i+1}] = {solution[i]:0.6f}")
+print(f"Converged in {iterations} iterations.")
+
+################
+#5.Gauss-Seidel Method
+
+import numpy as np
+import sys
+
+row = int(input("Enter the number of equations : "))
+column = int(input("Enter the number of variables : "))
+
+# Coefficient Matrix of a given system should be a square matrix
+if row!=column :
+    print("Coefficient Matrix of a given system should be a square matrix\n")
+    print("But here it is not so . So we can not solve the system using Gauss-Seidel Method")
+    sys.exit(0)
+
+print("Enter the entries of the augmented matrix in a single line (separated by space) : ")
+entries = list(map(int,input().split()))
+matrix = np.array(entries).reshape(row,column+1)
+print("The given matrix is : \n",matrix)
+
+# The coefficient matrix should be strictly diagonally dominant
+# Only one position will be having the value greater than the sum of all other entries of the row
+pos = []
+for i in range(row):
+    
+    #Making sure that no two row's domiant entry is in the same position
+    #In most of the cases the diagonal entries will be dominant so first checking that and if not checking the non diagonal entries of the row 
+    if sum(abs(matrix[i]))-abs(matrix[i][column]) <= 2*abs(matrix[i][i]) :
+        if i not in pos : 
+            pos.append(i)
+            continue
+    #If dominant is a non-diagonal entry
+    for j in range(column):
+        if i!=j :
+            if sum(abs(matrix[i]))-abs(matrix[i][column]) <= 2*abs(matrix[i][j]) :
+                if j not in pos : 
+                    pos.append(j)
+                    break
+    
+    #In a particular row Checking whether atleast one column's entry's absolute value is greater than the sum of absolute value of other column's entry
+    if len(pos)!=i+1:
+        print("The coefficient matrix of a given system should be diagonally dominant")
+        print("But here it is not so . So we can not solve the system using Gauss-Jacobi Method")
+        sys.exit(0)
+
+#This matrix contains the row position which is not having diagonal element as the domiant one and then the column position which is dominant 
+loc = []
+for i in range(row):
+    #If the diagonal entry is not the dominant one
+    if pos[i]!=i:
+        temp=[]
+        temp.append(i)
+        temp.append(pos[i])
+        loc.append(temp)
+
+#If only one diagonal entry is not dominant then we can not swap it with any other row
+if len(loc)== 1:
+    print("The coefficient matrix of a given system should be diagonally dominant\n")
+    print("But here it is not so . So we can not solve the system using Gauss-Seidel Method")
+    sys.exit(0)
+
+else:
+    while(len(loc)>1):
+        matrix[[loc[0][0],loc[0][1]]] = matrix[[loc[0][1],loc[0][0]]]
+        for i in range(len(loc)):
+            if(loc[i][0]==loc[0][1]):
+                loc[0][1]=loc[i][1]
+                loc.remove(loc[i])
+                print(len(loc))
+                break
+print("The strictly diagonally dominant matrix is : \n",matrix)
+
+print("Please Enter the initial values in the order of the variables :")
+initial=[]
+for i in range(column):
+    initial.append(input())
+ 
+table=[]
+table.append(initial)
+while( 1 ) :
+        temp=[]
+        for i in range(row):
+            value = matrix[i][column]
+            for j in range(column):
+                if i!=j:
+                    value = value - ( ( matrix[i][j] ) * float( table[(len(table)-1)][j] ) )
+            value/=matrix[i][i]
+            temp.append(format(value,'.4f'))
+        table.append(temp)
+        if (table[len(table)-1]*1000) == (table[len(table)-2]*1000) :
+            break
+
+print("\nThe iteration table is :")
+for i in table:
+    print(i)
+print("The solution follows the order in which you entered the variable's coefficient in the augumented matrix : \n",table[len(table)-1])
+
+############################## RREF OR NOR #######################################33
+import numpy as np
+
+def is_ref(matrix):
+    n, m = matrix.shape
+    lead_index = -1
+    for i in range(n):
+        row = matrix[i]
+        for j in range(m):
+            if row[j] != 0:
+                if j <= lead_index:
+                    return False
+                lead_index = j
+                break
+        else:
+            for k in range(i+1, n):
+                if np.any(matrix[k] != 0):
+                    return False
+            break
+    return True
+
+def is_rref(matrix):
+    if not is_ref(matrix):
+        return False
+    n, m = matrix.shape
+    for i in range(n):
+        row = matrix[i]
+        lead_entry_found = False
+        for j in range(m):
+            if row[j] == 1:
+                lead_entry_found = True
+                for k in range(n):
+                    if k != i and matrix[k][j] != 0:
+                        return False
+                break
+            elif row[j] != 0:
+                return False
+    return True
+
+def main():
+    n = int(input("Enter the number of rows (n): "))
+    m = int(input("Enter the number of columns (m): "))
+
+    matrix = np.zeros((n, m))
+    print("Enter the matrix elements row by row:")
+    for i in range(n):
+        row = list(map(float, input().split()))
+        matrix[i] = row
+
+    print("\nThe given matrix is:")
+    print(matrix, "\n")
+    
+    if is_rref(matrix):
+        print("This matrix is in Reduced Row Echelon Form (RREF).")
+    elif is_ref(matrix):
+        print("This matrix is in Row Echelon Form (REF).")
+    else:
+        print("This matrix is neither in REF nor in RREF.")
+
+if __name__ == "__main__":
+    main()
+######################################################################3
+POWER METHOD
+import numpy as np
+
+def powerMet(A, tol=1e-10, max_iter=100):
+    n = A.shape[0]
+    b_k = np.random.rand(n)
+
+    for _ in range(max_iter):
+        b_k1 = np.dot(A, b_k)
+        b_k1norm = np.linalg.norm(b_k1)
+        b_k = b_k1 / b_k1norm
+
+        if np.linalg.norm(np.dot(A, b_k) - b_k1norm * b_k1) < tol:
+            break
+    eigenVal = np.dot(b_k, np.dot(A, b_k))
+    return eigenVal, b_k
+
+n = int(input("Enter order: "))
+matrix = []
+for i in range(n):
+    matrix.append(list(map(float, input(f"Row {i + 1}: ").split())))
+matrix = np.array(matrix)
+eigVal, eigVec = powerMet(matrix)
+print(f"EigVal: {eigVal}, EigVec: {eigVec / np.linalg.norm(eigVec)}")
+print(f"EigVal: {np.linalg.eig(matrix)[0]}\n EigVec: {np.linalg.eig(matrix)[1]}")
+
+
+matrix = np.linalg.inv(np.array(matrix))
+eigVal, eigVec = powerMet(matrix)
+print(f"EigVal: {eigVal}, EigVec: {eigVec / np.linalg.norm(eigVec)}")
+print(f"EigVal: {np.linalg.eig(matrix)[0]}\n EigVec: {np.linalg.eig(matrix)[1]}")
+############################################################################################
+Q1,Q2
+
+import numpy as np
+import sympy as sp
+
+def charPoly(matrix):
+    A_sym = sp.Matrix(matrix)
+    x = sp.Symbol('x')
+    return (A_sym - x * sp.Matrix.eye(n)).det()
+
+def findDet(matrix):
+    n = matrix.shape[0]
+    if n == 1:
+        return matrix[0][0]
+    elif n == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    
+    det = 0
+    for c in range(n):
+        submatrix = np.delete(np.delete(matrix, 0, axis=0), c, axis=1)
+        det += ((-1) ** c) * (matrix[0][c]) * findDet(submatrix)
+    return det
+
+n = int(input("Enter order: "))
+matrix = []
+for i in range(n):
+    matrix.append(list(map(float, input(f"Row {i + 1}: ").split())))
+matrix = np.array(matrix)
+char_poly = charPoly(matrix)
+print(F"Char poly: {char_poly}")
+
+eig_val = sp.solve(char_poly, sp.Symbol('x'))
+print(f"Eig val: {eig_val}")
+
+eig_vec = np.linalg.eig(matrix)[1]
+print(f"Eig vec: {eig_vec}")
+
+print(f"Determinant: {findDet(matrix)}")
+###################################################################################3
+QUADFORM
+import numpy as np
+
+def quadF(qf, n):
+    matrix = np.zeros((n, n))
+    qf = qf.replace('^', '**')
+    terms = qf.split('+')
+    for term in terms:
+        term.strip()
+        if '**' in term:
+            print(f"Term: {term}")
+            var, po = term.split('**')
+            ind = int(var[var.index('x') + 1]) - 1
+            matrix[ind][ind] = float(var.split('*')[0])
+        else:
+            vs = term.split('*')
+            i = int(vs[1][1]) - 1
+            j = int(vs[2][1]) - 1
+            matrix[j, i] = float(vs[0]) / 2
+            matrix[i, j] = float(vs[0]) / 2
+    return matrix
+
+quadForm = input("Enter quad form: ")
+n = int(input("Enter n: "))
+matrix = quadF(quadForm, n)
+print(f"Matrix: {matrix}")
+
+###############################################################################
+EIGAN VALUES
+import numpy as np
+
+def jacobi(matrix, tol=1e-300, max_iter=1000000):
+    n = matrix.shape[0]
+    eigenVec = np.eye(n)
+    for _ in range(max_iter):
+        largest = 0
+        p, q = 0, 1
+        for i in range(n):
+            for j in range(i + 1, n):
+                if abs(matrix[i][j] > largest):
+                    largest = matrix[i][j]
+                    p, q = i, j 
+        if largest < tol:
+            break
+        if matrix[p][p] == matrix[q][q]:
+            theta = np.pi / 4
+        else:
+            theta = 0.5 * (np.arctan(2 * (matrix[p][q] / (matrix[p][p] - matrix[q][q]))))
+        cos = np.cos(theta)
+        sin = np.sin(theta)
+
+        J = np.eye(n)
+
+        J[p][p] = cos
+        J[q][q] = cos
+        J[p][q] = -sin
+        J[q][p] = sin
+
+        matrix = J.T @ matrix @ J
+        eigenVec = eigenVec @ J
+    eigVal = np.diag(matrix)
+    return eigVal, eigenVec
+
+n = int(input("Enter order: "))
+matrix = []
+for i in range(n):
+    matrix.append(list(map(float, input().split())))
+matrix = np.array(matrix)
+
+eigVal, eigVec = jacobi(matrix)
+print(f"val: {eigVal} \nvec: {eigVec}")
